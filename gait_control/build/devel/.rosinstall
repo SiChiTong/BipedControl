@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/ftp/Realease/src/gait_control/build/devel/setup.sh

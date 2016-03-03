@@ -1,0 +1,139 @@
+
+#include <ros/ros.h>
+
+#include <gazebo/math/Quaternion.hh>
+#include <math.h>
+#include <gazebo_msgs/ModelState.h>
+#include <std_msgs/Float64.h>
+#include "param.h"
+
+int initRobot();
+
+
+void callback(const ros::TimerEvent&)
+{
+    ROS_INFO("fuck");
+}
+
+int main(int argc, char** argv)
+{
+  ros::init(argc, argv, "pub_joint_trajectory_test");
+
+//  bool wait = true;
+//  while (wait)
+//  {
+//    ros::Time t = ros::Time::now();
+//    if (t.toSec() > 0)
+//      wait = false;
+//  }
+
+  ros::NodeHandle rosnode;
+//  ros::Publisher pub_ = rosnode.advertise<trajectory_msgs::JointTrajectory>(
+//    "joint_trajectory", 1, true);
+
+//  trajectory_msgs::JointTrajectory jt;
+
+  ros::Publisher pub_l_leg_lax_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/l_leg_lax_position_controller/command", 1, true);
+  ros::Publisher pub_l_leg_uay_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/l_leg_uay_position_controller/command", 1, true);
+  ros::Publisher pub_l_leg_kny_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/l_leg_kny_position_controller/command", 1, true);
+  ros::Publisher pub_l_leg_lhy_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/l_leg_lhy_position_controller/command", 1, true);
+  ros::Publisher pub_l_leg_mhx_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/l_leg_mhx_position_controller/command", 1, true);
+  ros::Publisher pub_l_leg_uhz_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/l_leg_uhz_position_controller/command", 1, true);
+
+
+  ros::Publisher pub_r_leg_lax_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/r_leg_lax_position_controller/command", 1, true);
+  ros::Publisher pub_r_leg_uay_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/r_leg_uay_position_controller/command", 1, true);
+  ros::Publisher pub_r_leg_kny_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/r_leg_kny_position_controller/command", 1, true);
+  ros::Publisher pub_r_leg_lhy_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/r_leg_lhy_position_controller/command", 1, true);
+  ros::Publisher pub_r_leg_mhx_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/r_leg_mhx_position_controller/command", 1, true);
+  ros::Publisher pub_r_leg_uhz_ =rosnode.advertise<std_msgs::Float64>(
+              "/atlas/r_leg_uhz_position_controller/command", 1, true);
+
+  std_msgs::Float64 jointRadian;
+
+  ros::Publisher pubModelState_ =rosnode.advertise<gazebo_msgs::ModelState>(
+              "gazebo/set_model_state", 1, true);
+  gazebo_msgs:: ModelState jtModelState;
+
+//  ros::Publisher pubAtlasCommand = rosnode->advertise<atlas_msgs::AtlasCommand>(
+//    "/atlas/atlas_command", 100, true);
+
+  //modelPosJt
+  jtModelState.model_name="atlas";
+  jtModelState.pose.position.x=0;
+  jtModelState.pose.position.y=0;
+  jtModelState.pose.position.z=1;
+
+
+
+
+  //initialize robot
+//  jointRadian.data=0;
+//  pub_l_leg_lax_.publish(jointRadian);
+//  pub_l_leg_uay_.publish(jointRadian);
+//  pub_l_leg_kny_.publish(jointRadian);
+//  pub_l_leg_lhy_.publish(jointRadian);
+//  pub_l_leg_mhx_.publish(jointRadian);
+//  pub_l_leg_uhz_.publish(jointRadian);
+
+//  pub_r_leg_lax_.publish(jointRadian);
+//  pub_r_leg_uay_.publish(jointRadian);
+//  pub_r_leg_kny_.publish(jointRadian);
+//  pub_r_leg_lhy_.publish(jointRadian);
+//  pub_r_leg_mhx_.publish(jointRadian);
+//  pub_r_leg_uhz_.publish(jointRadian);
+
+    jointRadian.data=0;
+    jointRadian.data=-M_PI/16; pub_l_leg_lax_.publish(jointRadian);
+    jointRadian.data=0; pub_l_leg_uay_.publish(jointRadian);
+    jointRadian.data=M_PI/4; pub_l_leg_kny_.publish(jointRadian);
+    jointRadian.data=-M_PI/4; pub_l_leg_lhy_.publish(jointRadian);
+    jointRadian.data=M_PI/16; pub_l_leg_mhx_.publish(jointRadian);
+    jointRadian.data=0; pub_l_leg_uhz_.publish(jointRadian);
+
+    jointRadian.data=M_PI/16; pub_r_leg_lax_.publish(jointRadian);
+    jointRadian.data=-M_PI/12;pub_r_leg_uay_.publish(jointRadian);
+    jointRadian.data=0; pub_r_leg_kny_.publish(jointRadian);
+    jointRadian.data=M_PI/12; pub_r_leg_lhy_.publish(jointRadian);
+    jointRadian.data=-M_PI/16; pub_r_leg_mhx_.publish(jointRadian);
+    jointRadian.data=0; pub_r_leg_uhz_.publish(jointRadian);
+    pubModelState_.publish(jtModelState);
+
+
+
+    ros::Timer timer1=n.createTimer(ros::Duration(0.1),callback);
+    ros::spin();
+
+
+
+
+
+//    for (int i = 0; i < 50; i++)
+//    {
+////        jointRadian.data=abs(M_PI*(i-25)/25);
+//        jointRadian.data=M_PI*(25-abs(i-25))/25;
+//        pub_r_leg_kny_.publish(jointRadian);
+//        usleep(100000);
+//    }
+
+
+////    ROS_DEBUG("test: angles[%d][%f, %f]", n, x1, x2);
+
+
+//  //pubModelState_.publish(jtModelState);
+
+  ros::spin();
+
+  return 0;
+}
